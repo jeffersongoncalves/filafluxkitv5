@@ -1,0 +1,16 @@
+# HubDev Team Configuration
+# Share this file with your team so everyone gets the same dev environment.
+# Docs: https://hubdev.io
+
+name: filakitv5
+domain: filakitv5.test
+php: "8.4"
+database:
+    driver: mysql
+    name: filakitv5
+    user: root
+    password:
+scripts:
+    setup: composer install && npm install
+    build: npm run build
+    migrate: php artisan migrate --seed

@@ -17,6 +17,7 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Jeffersongoncalves\FilamentFlux\FilamentFluxPlugin;
 
 class GuestPanelProvider extends PanelProvider
 {
@@ -28,10 +29,10 @@ class GuestPanelProvider extends PanelProvider
             ->colors([
                 'primary' => Color::Gray,
             ])
-            ->brandLogo(fn () => Vite::asset(config('filakit.favicon.logo')))
+            ->brandLogo(fn () => Vite::asset(config('filafluxkit.favicon.logo')))
             ->brandLogoHeight('50px')
             ->viteTheme('resources/css/filament/guest/theme.css')
-            ->defaultThemeMode(config('filakit.theme_mode', ThemeMode::Dark))
+            ->defaultThemeMode(config('filafluxkit.theme_mode', ThemeMode::Dark))
             ->discoverClusters(in: app_path('Filament/Guest/Clusters'), for: 'App\\Filament\\Guest\\Clusters')
             ->discoverPages(in: app_path('Filament/Guest/Pages'), for: 'App\\Filament\\Guest\\Pages')
             ->discoverResources(in: app_path('Filament/Guest/Resources'), for: 'App\\Filament\\Guest\\Resources')
@@ -52,7 +53,7 @@ class GuestPanelProvider extends PanelProvider
                 DispatchServingFilamentEvent::class,
             ])
             ->plugins([
-                //
+                FilamentFluxPlugin::make(),
             ])
             ->userMenu(false)
             ->topNavigation()

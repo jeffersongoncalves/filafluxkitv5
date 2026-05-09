@@ -1,17 +1,25 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "jeffersongoncalves/filakitv5",
+    "name": "jeffersongoncalves/filafluxkitv5",
     "type": "project",
-    "description": "FilaKit starter kit built on Laravel 13.x and Filament 5.x with a ready-to-use multi-panel structure.",
+    "description": "FilaFluxKit — Laravel 13 + Filament v5 starter kit with multi-panel structure (Admin, App, Guest), multi-guard auth and Livewire Flux UI components via filament-flux plugin.",
     "keywords": [
         "laravel-starter-kit",
         "starter-kit",
         "filament-starter-kit",
         "laravel",
+        "laravel-13",
         "filament",
         "filament-v5",
         "livewire",
-        "tailwindcss"
+        "livewire-4",
+        "livewire-flux",
+        "filament-flux",
+        "flux-ui",
+        "tailwindcss",
+        "tailwind-v4",
+        "multi-panel",
+        "multi-guard"
     ],
     "license": "MIT",
     "require": {
@@ -19,6 +27,7 @@
         "achyutn/filament-log-viewer": "^2.1",
         "dutchcodingcompany/filament-developer-logins": "^2.1",
         "filament/filament": "^5.0",
+        "jeffersongoncalves/filament-flux": "^1.0",
         "jeffersongoncalves/filament-logo": "^3.0",
         "joaopaulolndev/filament-edit-profile": "^3.0",
         "laravel/framework": "^13.0",

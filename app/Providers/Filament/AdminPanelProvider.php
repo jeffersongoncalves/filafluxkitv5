@@ -22,6 +22,7 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Jeffersongoncalves\FilamentFlux\FilamentFluxPlugin;
 use Joaopaulolndev\FilamentEditProfile\FilamentEditProfilePlugin;
 use Joaopaulolndev\FilamentEditProfile\Pages\EditProfilePage;
 
@@ -38,10 +39,10 @@ class AdminPanelProvider extends PanelProvider
             ->colors([
                 'primary' => Color::Amber,
             ])
-            ->brandLogo(fn () => Vite::asset(config('filakit.favicon.logo')))
-            ->brandLogoHeight(fn () => request()->is('admin/login', 'admin/password-reset/*') ? '121px' : '50px')
+            ->brandLogo(fn() => Vite::asset(config('filafluxkit.favicon.logo')))
+            ->brandLogoHeight(fn() => request()->is('admin/login', 'admin/password-reset/*') ? '121px' : '50px')
             ->viteTheme('resources/css/filament/admin/theme.css')
-            ->defaultThemeMode(config('filakit.theme_mode', ThemeMode::Dark))
+            ->defaultThemeMode(config('filafluxkit.theme_mode', ThemeMode::Dark))
             ->discoverClusters(in: app_path('Filament/Admin/Clusters'), for: 'App\\Filament\\Admin\\Clusters')
             ->discoverPages(in: app_path('Filament/Admin/Pages'), for: 'App\\Filament\\Admin\\Pages')
             ->discoverResources(in: app_path('Filament/Admin/Resources'), for: 'App\\Filament\\Admin\\Resources')
@@ -73,6 +74,10 @@ class AdminPanelProvider extends PanelProvider
                 __('Settings'),
             ])
             ->plugins([
+                FilamentFluxPlugin::make()
+                    ->scopeClass()
+                    ->injectAppearance()
+                    ->injectScripts(),
                 FilamentLogViewer::make()
                     ->navigationGroup(__('Settings')),
                 FilamentEditProfilePlugin::make()
@@ -97,8 +102,8 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->userMenuItems([
                 'profile' => Action::make('profile')
-                    ->label(fn (): string => __('My Profile'))
-                    ->url(fn (): string => EditProfilePage::getUrl())
+                    ->label(fn(): string => __('My Profile'))
+                    ->url(fn(): string => EditProfilePage::getUrl())
                     ->icon('heroicon-m-user-circle'),
             ])
             ->unsavedChangesAlerts()

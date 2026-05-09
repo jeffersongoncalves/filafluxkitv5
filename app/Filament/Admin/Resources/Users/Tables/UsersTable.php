@@ -5,9 +5,9 @@ namespace App\Filament\Admin\Resources\Users\Tables;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
-use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Jeffersongoncalves\FilamentFlux\Tables\Columns\FluxIconColumn;
 
 class UsersTable
 {
@@ -15,10 +15,9 @@ class UsersTable
     {
         return $table
             ->columns([
-                IconColumn::make('status')
-                    ->boolean()
-                    ->trueIcon('heroicon-o-check-badge')
-                    ->falseIcon('heroicon-o-x-mark')
+                FluxIconColumn::make('status')
+                    ->fluxIcon(fn ($state): string => $state ? 'check-badge' : 'x-mark')
+                    ->fluxColor(fn ($state): string => $state ? 'green' : 'red')
                     ->sortable(),
                 TextColumn::make('name')
                     ->searchable()

@@ -1,5 +1,8 @@
 @import '../../../../vendor/filament/filament/resources/css/theme.css';
-
+@import "../../../../vendor/livewire/flux/dist/flux.css";
+@import "../../../../vendor/jeffersongoncalves/filament-flux/dist/filament-flux.css";
+@source '../../../../vendor/jeffersongoncalves/filament-flux/resources/views/components/**/*';
+@source '../../../../vendor/livewire/flux/stubs/resources/views/flux/**/*';
 @source '../../../../app/Filament/**/*';
 @source '../../../../resources/views/components/**/*';
 @source '../../../../resources/views/filament/**/*';

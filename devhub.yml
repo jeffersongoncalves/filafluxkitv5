@@ -2,12 +2,12 @@
 # Share this file with your team so everyone gets the same dev environment.
 # Docs: https://hubdev.io
 
-name: filakitv5
-domain: filakitv5.test
+name: filafluxkitv5
+domain: filafluxkitv5.test
 php: "8.4"
 database:
     driver: mysql
-    name: filakitv5
+    name: filafluxkitv5
     user: root
     password:
 scripts:

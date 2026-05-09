@@ -1,25 +1,30 @@
 <div class="filament-hidden">
 
-![FilaKit](https://raw.githubusercontent.com/jeffersongoncalves/filakitv5/main/art/jeffersongoncalves-filakitv5.png)
+![FilaFluxKit](https://raw.githubusercontent.com/jeffersongoncalves/filafluxkitv5/main/art/jeffersongoncalves-filafluxkitv5.png)
 
 </div>
 
-# FilaKit Start Kit Filament 5.x and Laravel 13.x
+# FilaFluxKit Start Kit Filament 5.x and Laravel 13.x
 
-## About FilaKit
+## About FilaFluxKit
 
-FilaKit is a robust starter kit built on Laravel 13.x and Filament 5.x, designed to accelerate the development of modern
-web applications with a ready-to-use multi-panel structure.
+FilaFluxKit is a robust starter kit built on Laravel 13.x and Filament 5.x, designed to accelerate the development of modern
+web applications with a ready-to-use multi-panel structure and Livewire Flux UI components integrated via the
+[`jeffersongoncalves/filament-flux`](https://github.com/jeffersongoncalves/filament-flux) plugin.
 
 ## Features
 
 - **Laravel 13.x** - The latest version of the most elegant PHP framework
 - **Filament 5.x** - Powerful and flexible admin framework
+- **Livewire 4.x + Flux 2.x** - Modern reactive UI primitives wired into every panel
+- **filament-flux plugin** - Native Filament Form Fields, Table Columns, Infolist Entries and Actions backed by Livewire Flux
+- **Tailwind CSS v4** - Configured per-panel theme with Flux palette safelist
 - **Multi-Panel Structure** - Includes three pre-configured panels:
     - Admin Panel (`/admin`) - For system administrators
     - App Panel (`/app`) - For authenticated application users
-    - Public Panel (frontend interface) - For visitors
-- **Environment Configuration** - Centralized configuration through the `config/filakit.php` file
+    - Guest Panel (frontend interface) - For visitors
+- **Multi-Guard Authentication** - Separate `Admin` and `User` models, tables, guards and login pages
+- **Environment Configuration** - Centralized configuration through the `config/filafluxkit.php` file
 
 ## System Requirements
 
@@ -31,22 +36,22 @@ web applications with a ready-to-use multi-panel structure.
 
 Clone the repository
 ``` bash
-laravel new my-app --using=jeffersongoncalves/filakitv5 --database=mysql
+laravel new my-app --using=jeffersongoncalves/filafluxkitv5 --database=mysql
 ```
 
-### Using FilaKit CLI
+### Using FilaFluxKit CLI
 
-Or use [FilaKit CLI](https://github.com/jeffersongoncalves/filakit-cli) for a simplified setup:
+Or use [FilaFluxKit CLI](https://github.com/jeffersongoncalves/filafluxkit-cli) for a simplified setup:
 
 ```bash
-filakit new my-app --kit=jeffersongoncalves/filakitv5
+filafluxkit new my-app --kit=jeffersongoncalves/filafluxkitv5
 ```
 
-> Install FilaKit CLI: `composer global require jeffersongoncalves/filakit-cli`
+> Install FilaFluxKit CLI: `composer global require jeffersongoncalves/filafluxkit-cli`
 
 ###  Easy Installation
 
-FilaKit can be easily installed using the following command:
+FilaFluxKit can be easily installed using the following command:
 
 ```bash
 php install.php
@@ -93,7 +98,7 @@ php artisan serve
 
 Clone the repository
 ```bash
-laravel new my-app --using=jeffersongoncalves/filakitv5 --database=mysql
+laravel new my-app --using=jeffersongoncalves/filafluxkitv5 --database=mysql
 ```
 
 Move into the project directory
@@ -150,7 +155,7 @@ pnpm install
 
 ## Authentication Structure
 
-FilaKit comes pre-configured with a custom authentication system that supports different types of users:
+FilaFluxKit comes pre-configured with a custom authentication system that supports different types of users:
 
 - `Admin` - For administrative panel access
 - `User` - For application panel access
@@ -175,23 +180,56 @@ Panels can be customized through their respective providers:
 
 - `app/Providers/Filament/AdminPanelProvider.php`
 - `app/Providers/Filament/AppPanelProvider.php`
-- `app/Providers/Filament/PublicPanelProvider.php`
+- `app/Providers/Filament/GuestPanelProvider.php`
 
-Alternatively, these settings are also consolidated in the `config/filakit.php` file for easier management.
+Alternatively, these settings are also consolidated in the `config/filafluxkit.php` file for easier management.
 
 ### Themes and Colors
 
 Each panel can have its own color scheme, which can be easily modified in the corresponding Provider files or in the
-`filakit.php` configuration file.
+`filafluxkit.php` configuration file.
 
 ### Configuration File
 
-The `config/filakit.php` file centralizes the configuration of the starter kit, including:
+The `config/filafluxkit.php` file centralizes the configuration of the starter kit, including:
 
 - Panel routes
 - Middleware for each panel
 - Branding options (logo, colors)
 - Authentication guards
+
+## Livewire Flux UI — jeffersongoncalves/filament-flux
+
+This kit ships with [`filament-flux`](https://github.com/jeffersongoncalves/filament-flux) preinstalled and registered on every panel. The plugin exposes Livewire Flux components as native Filament Form Fields, Table Columns, Infolist Entries and Actions.
+
+Already wired in this kit:
+
+- `FluxInput`, `FluxSwitch` on Admin/User forms (with `fluxIcon('envelope' | 'lock-closed')`)
+- `FluxIconColumn` on Admin/User tables (state-aware `fluxIcon` and `fluxColor` closures)
+- `FluxIconEntry`, `FluxTextEntry` on Admin/User infolists and the shared `AdditionalInformation` component
+- `FluxInput` on every Filament Auth Login page (Admin + App)
+
+Plugin registration lives in:
+- `app/Providers/Filament/AdminPanelProvider.php`
+- `app/Providers/Filament/AppPanelProvider.php`
+- `app/Providers/Filament/GuestPanelProvider.php`
+
+Each panel theme imports Flux + filament-flux CSS:
+
+```css
+@import '../../../../vendor/filament/filament/resources/css/theme.css';
+@import '../../../../vendor/livewire/flux/dist/flux.css';
+@import '../../../../vendor/jeffersongoncalves/filament-flux/dist/filament-flux.css';
+```
+
+To wire it on a new panel run:
+
+```bash
+php artisan filament-flux:install --panel={panel-id}
+pnpm build
+```
+
+Reference: https://github.com/jeffersongoncalves/filament-flux
 
 ## User Profile — joaopaulolndev/filament-edit-profile
 
@@ -239,7 +277,7 @@ Reference
 
 ## Resources
 
-FilaKit includes support for:
+FilaFluxKit includes support for:
 
 - User and admin management
 - Multi-guard authentication system

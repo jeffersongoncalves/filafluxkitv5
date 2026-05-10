@@ -39,8 +39,8 @@ class AdminPanelProvider extends PanelProvider
             ->colors([
                 'primary' => Color::Amber,
             ])
-            ->brandLogo(fn() => Vite::asset(config('filafluxkit.favicon.logo')))
-            ->brandLogoHeight(fn() => request()->is('admin/login', 'admin/password-reset/*') ? '121px' : '50px')
+            ->brandLogo(fn () => Vite::asset(config('filafluxkit.favicon.logo')))
+            ->brandLogoHeight(fn () => request()->is('admin/login', 'admin/password-reset/*') ? '121px' : '50px')
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->defaultThemeMode(config('filafluxkit.theme_mode', ThemeMode::Dark))
             ->discoverClusters(in: app_path('Filament/Admin/Clusters'), for: 'App\\Filament\\Admin\\Clusters')
@@ -75,9 +75,9 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->plugins([
                 FilamentFluxPlugin::make()
-                    ->scopeClass()
-                    ->injectAppearance()
-                    ->injectScripts(),
+                    ->useFluxComponents()
+                    ->useFluxNavigation()
+                    ->useEverywhere(),
                 FilamentLogViewer::make()
                     ->navigationGroup(__('Settings')),
                 FilamentEditProfilePlugin::make()
@@ -102,8 +102,8 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->userMenuItems([
                 'profile' => Action::make('profile')
-                    ->label(fn(): string => __('My Profile'))
-                    ->url(fn(): string => EditProfilePage::getUrl())
+                    ->label(fn (): string => __('My Profile'))
+                    ->url(fn (): string => EditProfilePage::getUrl())
                     ->icon('heroicon-m-user-circle'),
             ])
             ->unsavedChangesAlerts()

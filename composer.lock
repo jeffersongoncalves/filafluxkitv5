@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "08f6bfa1b8d46d6a8b1e0659f164c12c",
+    "content-hash": "e132e1c99701fc09efc4ef36f4b258ec",
     "packages": [
         {
             "name": "achyutn/filament-log-viewer",
@@ -2163,16 +2163,16 @@
         },
         {
             "name": "jeffersongoncalves/filament-flux",
-            "version": "1.0.0",
+            "version": "1.11.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jeffersongoncalves/filament-flux.git",
-                "reference": "be1ff209bf1a3857ce4753ac4478c65b28dcb638"
+                "reference": "69991730c007265d56f2769f0acbe65a6070c043"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jeffersongoncalves/filament-flux/zipball/be1ff209bf1a3857ce4753ac4478c65b28dcb638",
-                "reference": "be1ff209bf1a3857ce4753ac4478c65b28dcb638",
+                "url": "https://api.github.com/repos/jeffersongoncalves/filament-flux/zipball/69991730c007265d56f2769f0acbe65a6070c043",
+                "reference": "69991730c007265d56f2769f0acbe65a6070c043",
                 "shasum": ""
             },
             "require": {
@@ -2236,7 +2236,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-05-09T20:31:11+00:00"
+            "time": "2026-05-10T01:34:13+00:00"
         },
         {
             "name": "jeffersongoncalves/filament-logo",

@@ -67,7 +67,10 @@ class AppPanelProvider extends PanelProvider
                 Authenticate::class,
             ])
             ->plugins([
-                FilamentFluxPlugin::make(),
+                FilamentFluxPlugin::make()
+                    ->useFluxComponents()
+                    ->useFluxNavigation()
+                    ->useEverywhere(),
                 FilamentEditProfilePlugin::make()
                     ->slug('my-profile')
                     ->setTitle(__('My Profile'))

@@ -2,10 +2,10 @@
 
 namespace App\Filament\Admin\Resources\Admins\Schemas;
 
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
-use Jeffersongoncalves\FilamentFlux\Forms\Components\FluxInput;
-use Jeffersongoncalves\FilamentFlux\Forms\Components\FluxSwitch;
 
 use function filled;
 
@@ -19,25 +19,23 @@ class AdminForm
                 Section::make()
                     ->columns()
                     ->schema([
-                        FluxSwitch::make('status')
+                        Toggle::make('status')
                             ->required()
                             ->autofocus(),
-                        FluxInput::make('name')
+                        TextInput::make('name')
                             ->required()
                             ->string()
                             ->autofocus(),
-                        FluxInput::make('email')
+                        TextInput::make('email')
                             ->required()
                             ->string()
                             ->unique('admins', 'email', ignoreRecord: true)
-                            ->email()
-                            ->fluxIcon('envelope'),
-                        FluxInput::make('password')
+                            ->email(),
+                        TextInput::make('password')
                             ->password()
                             ->required(fn (string $context): bool => $context === 'create')
                             ->dehydrated(fn ($state) => filled($state))
-                            ->rule('min:6')
-                            ->fluxIcon('lock-closed'),
+                            ->minLength(6),
                     ]),
             ]);
     }

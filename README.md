@@ -200,14 +200,20 @@ The `config/filafluxkit.php` file centralizes the configuration of the starter k
 
 ## Livewire Flux UI — jeffersongoncalves/filament-flux
 
-This kit ships with [`filament-flux`](https://github.com/jeffersongoncalves/filament-flux) preinstalled and registered on every panel. The plugin exposes Livewire Flux components as native Filament Form Fields, Table Columns, Infolist Entries and Actions.
+This kit ships with [`filament-flux`](https://github.com/jeffersongoncalves/filament-flux) preinstalled and registered on every panel via `->useEverywhere()`. Resources keep calling native Filament Form Fields (`TextInput`, `Toggle`, `Select`, etc.) and receive the matching Flux subclass automatically — no code changes in your Resources.
 
-Already wired in this kit:
+Auto-replaced via container bindings (form fields):
 
-- `FluxInput`, `FluxSwitch` on Admin/User forms (with `fluxIcon('envelope' | 'lock-closed')`)
-- `FluxIconColumn` on Admin/User tables (state-aware `fluxIcon` and `fluxColor` closures)
-- `FluxIconEntry`, `FluxTextEntry` on Admin/User infolists and the shared `AdditionalInformation` component
-- `FluxInput` on every Filament Auth Login page (Admin + App)
+| Filament native | Flux replacement |
+|---|---|
+| `TextInput` | `FluxInput` |
+| `Textarea` | `FluxTextarea` |
+| `Select` | `FluxSelect` |
+| `Checkbox` | `FluxCheckbox` |
+| `CheckboxList` | `FluxCheckboxGroup` |
+| `Radio` | `FluxRadio` |
+| `Toggle` | `FluxSwitch` |
+| `OneTimeCodeInput` | `FluxOtpInput` |
 
 Plugin registration lives in:
 - `app/Providers/Filament/AdminPanelProvider.php`
@@ -227,6 +233,15 @@ To wire it on a new panel run:
 ```bash
 php artisan filament-flux:install --panel={panel-id}
 pnpm build
+```
+
+Granular opt-out per field:
+
+```php
+FilamentFluxPlugin::make()->useEverywhere([
+    'select' => false,
+    'otp' => false,
+]);
 ```
 
 Reference: https://github.com/jeffersongoncalves/filament-flux

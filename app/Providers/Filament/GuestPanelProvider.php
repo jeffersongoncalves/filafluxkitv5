@@ -53,7 +53,10 @@ class GuestPanelProvider extends PanelProvider
                 DispatchServingFilamentEvent::class,
             ])
             ->plugins([
-                FilamentFluxPlugin::make(),
+                FilamentFluxPlugin::make()
+                    ->useFluxComponents()
+                    ->useFluxNavigation()
+                    ->useEverywhere(),
             ])
             ->userMenu(false)
             ->topNavigation()

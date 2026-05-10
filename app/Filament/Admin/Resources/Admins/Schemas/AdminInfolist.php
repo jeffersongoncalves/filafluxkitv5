@@ -3,10 +3,10 @@
 namespace App\Filament\Admin\Resources\Admins\Schemas;
 
 use App\Filament\Schemas\Components\AdditionalInformation;
+use Filament\Infolists\Components\IconEntry;
+use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
-use Jeffersongoncalves\FilamentFlux\Infolists\Components\FluxIconEntry;
-use Jeffersongoncalves\FilamentFlux\Infolists\Components\FluxTextEntry;
 
 class AdminInfolist
 {
@@ -17,12 +17,14 @@ class AdminInfolist
             ->components([
                 Section::make()
                     ->schema([
-                        FluxTextEntry::make('id'),
-                        FluxIconEntry::make('status')
-                            ->fluxIcon(fn ($state): string => $state ? 'check-badge' : 'x-mark')
-                            ->fluxColor(fn ($state): string => $state ? 'green' : 'red'),
-                        FluxTextEntry::make('name'),
-                        FluxTextEntry::make('email'),
+                        TextEntry::make('id'),
+                        IconEntry::make('status')
+                            ->boolean(),
+                        TextEntry::make('name'),
+                        TextEntry::make('email')
+                            ->copyable()
+                            ->copyMessage('Email copied successfully!')
+                            ->copyMessageDuration(1500),
                     ]),
                 AdditionalInformation::make([
                     'created_at',

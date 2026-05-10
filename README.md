@@ -200,20 +200,14 @@ The `config/filafluxkit.php` file centralizes the configuration of the starter k
 
 ## Livewire Flux UI — jeffersongoncalves/filament-flux
 
-This kit ships with [`filament-flux`](https://github.com/jeffersongoncalves/filament-flux) preinstalled and registered on every panel via `->useEverywhere()`. Resources keep calling native Filament Form Fields (`TextInput`, `Toggle`, `Select`, etc.) and receive the matching Flux subclass automatically — no code changes in your Resources.
+This kit ships with [`filament-flux`](https://github.com/jeffersongoncalves/filament-flux) (`^1.11`) preinstalled and registered on every panel. Resources keep calling native Filament classes — the plugin swaps them for Flux subclasses or rewrites the rendered Blade markup at three layers:
 
-Auto-replaced via container bindings (form fields):
-
-| Filament native | Flux replacement |
-|---|---|
-| `TextInput` | `FluxInput` |
-| `Textarea` | `FluxTextarea` |
-| `Select` | `FluxSelect` |
-| `Checkbox` | `FluxCheckbox` |
-| `CheckboxList` | `FluxCheckboxGroup` |
-| `Radio` | `FluxRadio` |
-| `Toggle` | `FluxSwitch` |
-| `OneTimeCodeInput` | `FluxOtpInput` |
+```php
+FilamentFluxPlugin::make()
+    ->useEverywhere()       // Form Fields (container bindings)
+    ->useFluxNavigation()   // Sidebar + topbar items
+    ->useFluxComponents();  // Atomic <x-filament::*> Blade components
+```
 
 Plugin registration lives in:
 - `app/Providers/Filament/AdminPanelProvider.php`
@@ -235,13 +229,88 @@ php artisan filament-flux:install --panel={panel-id}
 pnpm build
 ```
 
-Granular opt-out per field:
+### `useEverywhere()` — Form Field auto-replace
+
+Container bindings rewrite every native Form Field call to its Flux subclass. No code changes in your Resources.
+
+| Slug | Filament native | Flux replacement |
+|---|---|---|
+| `input` | `TextInput` | `FluxInput` |
+| `textarea` | `Textarea` | `FluxTextarea` |
+| `select` | `Select` | `FluxSelect` |
+| `checkbox` | `Checkbox` | `FluxCheckbox` |
+| `checkboxList` | `CheckboxList` | `FluxCheckboxGroup` |
+| `radio` | `Radio` | `FluxRadio` |
+| `toggle` | `Toggle` | `FluxSwitch` |
+| `otp` | `OneTimeCodeInput` | `FluxOtpInput` |
+
+Granular opt-out:
 
 ```php
 FilamentFluxPlugin::make()->useEverywhere([
-    'select' => false,
+    'select' => false,    // keep native <select>
     'otp' => false,
 ]);
+```
+
+### `useFluxNavigation()` — Sidebar + topbar
+
+Replaces Filament's sidebar/topbar Blade items with `<flux:navlist>` / `<flux:navbar>` markup while keeping Filament's data layer (active state, badges, child items, registered Resources/Pages) intact.
+
+```php
+FilamentFluxPlugin::make()->useFluxNavigation([
+    'sidebar' => true,
+    'topbar' => true,
+    'shell' => false,         // outer <flux:sidebar>/<flux:main> shell — invasive, opt-in
+    'themeSwitcher' => false, // single <flux:dropdown> theme switcher — opt-in
+]);
+```
+
+### `useFluxComponents()` — Atomic Blade components
+
+Replaces `<x-filament::*>` with `<x-flux::*>`. Each slug is opt-in.
+
+| Slug | Filament view | Flux replacement |
+|---|---|---|
+| `badge` | `filament::components.badge` | `<flux:badge>` |
+| `avatar` | `filament::components.avatar` | `<flux:avatar>` |
+| `icon` | `filament::components.icon` | `<flux:icon>` |
+| `iconButton` | `filament::components.icon-button` | `<flux:button square icon>` |
+| `link` | `filament::components.link` | `<flux:link>` |
+| `breadcrumbs` | `filament::components.breadcrumbs` | `<flux:breadcrumbs>` |
+| `callout` | `filament::components.callout` | `<flux:callout>` |
+| `card` | `filament::components.card` | `<flux:card>` |
+| `fieldset` | `filament::components.fieldset` | `<flux:fieldset>` |
+| `section` | `filament::components.section` | `<flux:card>` w/ heading + collapsible/persist |
+| `dropdown` | `filament::components.dropdown` | `<flux:dropdown>` + `<flux:menu>` |
+| `dropdownHeader` | `filament::components.dropdown.header` | `<flux:heading size="sm">` |
+| `modalHeading` | `filament::components.modal.heading` | `<flux:heading size="lg">` |
+| `modalDescription` | `filament::components.modal.description` | `<flux:text>` |
+| `schemaText` | `filament-schemas::components.text` | `<flux:text>` |
+| `statsCard` | `filament-widgets::stats-overview-widget.stat` | `<flux:card>` + heading/subheading/text |
+| `notifications` | `filament-notifications::notifications` | `<flux:toast.group>` envelope |
+| `pagination` | `filament::components.pagination.index` | `<flux:pagination>` |
+
+Granular opt-out:
+
+```php
+FilamentFluxPlugin::make()->useFluxComponents([
+    'badge' => true,
+    'avatar' => true,
+    'icon' => true,
+    // omit/false → keep Filament's view
+]);
+```
+
+Mixed icon sets (Heroicons + Font Awesome / Tabler / Lucide / Phosphor / Material / etc.) are detected by the bundled `HeroiconNormalizer` and routed back through Blade Icons when needed — only Heroicons go through `<flux:icon>`.
+
+### Plugin options
+
+```php
+FilamentFluxPlugin::make()
+    ->scopeClass('filament-flux-scope')   // CSS scope wrapper; pass null to use Flux's native zinc palette
+    ->injectAppearance(true)              // @fluxAppearance in <head> + theme bridge
+    ->injectScripts(true);                // @fluxScripts before </body>
 ```
 
 Reference: https://github.com/jeffersongoncalves/filament-flux
